@@ -29,9 +29,9 @@ Route::group([
     'prefix' => 'api/v1'
 ], function () {
 
-	$this->post('register', 'Auth\AuthController@register');
-    $this->post('login', 'Auth\AuthController@login');
-    $this->get('logout', 'Auth\AuthController@logout');
+	$this->post('register', 'Auth\AuthApiController@register');
+    $this->post('login', 'Auth\AuthApiController@login');
+    $this->get('logout', 'Auth\AuthApiController@logout');
 
     Route::group([
         'middleware' => 'apiauth:api',
