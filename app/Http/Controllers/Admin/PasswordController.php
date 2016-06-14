@@ -1,10 +1,11 @@
-<?php namespace App\Http\Controllers\Auth;
+<?php 
+
+namespace App\Http\Controllers\Auth\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Support\Str;
 
 class PasswordController extends Controller {
 
@@ -21,9 +22,6 @@ class PasswordController extends Controller {
 
 	use ResetsPasswords;
 
-	protected $redirectTo = '/admin/login';
-	protected $guard = 'admin';
-
 	/**
 	 * Create a new password controller instance.
 	 *
@@ -38,22 +36,5 @@ class PasswordController extends Controller {
 
 		$this->middleware('guest');
 	}
-
-	/**
-     * Reset the given user's password.
-     *
-     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
-     * @param  string  $password
-     * @return void
-     */
-    protected function resetPassword($user, $password)
-    {
-        $user->forceFill([
-            'password' => bcrypt($password),
-            'remember_token' => Str::random(60),
-        ])->save();
-
-        //Auth::guard($this->getGuard())->login($user);
-    }
 
 }

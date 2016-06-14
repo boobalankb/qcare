@@ -24,6 +24,8 @@ class AuthApiController extends Controller {
 
 	use AuthenticatesAndRegistersUsers;
 
+	protected $guard = 'api';
+
 	/**
 	 * Create a new authentication controller instance.
 	 *
@@ -89,6 +91,10 @@ class AuthApiController extends Controller {
 	    ];
 
 	    $token = Auth::guard($this->getGuard())->attempt($credentials);
+
+	    // update the user role
+	    $user = User::where('email', $credentials['email'])->first();
+	    $user->assignRole(2);	// 2 is donor br default. TODO: Make it dynamic from request
 
 	    return response()->json(['token' => $token]);
 	}

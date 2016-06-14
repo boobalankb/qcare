@@ -35,6 +35,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
         'api' => [
             'driver' => 'jwt',
             'provider' => 'users',
@@ -90,6 +94,6 @@ return [
             'email' => 'auth.emails.password',
             'table' => 'password_resets',
             'expire' => 60,
-        ],
+        ]
     ],
 ];

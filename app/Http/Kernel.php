@@ -25,11 +25,15 @@ class Kernel extends HttpKernel {
 	 */
 	protected $routeMiddleware = [
 		'auth' => 'App\Http\Middleware\Authenticate',
+		'admin'	=> 'App\Http\Middleware\RedirectIfNotAdmin',
 		'apiauth'	=> 'Tymon\JWTAuth\Http\Middleware\Authenticate',
 		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
 		'guest' => 'App\Http\Middleware\RedirectIfAuthenticated',
+		'admin.auth.redirect' => 'App\Http\Middleware\RedirectIfAuthenticated',
 		'jwt.auth' => 'Tymon\JWTAuth\Middleware\GetUserFromToken',
     	'jwt.refresh' => 'Tymon\JWTAuth\Middleware\RefreshToken',
+    	'ability' => 'App\Http\Middleware\TokenShinobiAbility',
+    	'admin.ability' => 'App\Http\Middleware\AdminShinobiAbility'
 	];
 
 }
