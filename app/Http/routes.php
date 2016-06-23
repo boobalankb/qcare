@@ -53,9 +53,14 @@ Route::group([
 	$this->post('register', 'Auth\AuthApiController@register');
     $this->post('login', 'Auth\AuthApiController@login');
     $this->get('logout', 'Auth\AuthApiController@logout');
-    $this->post('password/email', 'Auth\PasswordApiController@sendResetLinkEmail');
+
+    // password reset
+    /*$this->post('password/email', 'Auth\PasswordApiController@sendResetLinkEmail');
     $this->post('password/reset', 'Auth\PasswordApiController@reset');
-    $this->get('password/reset/{token?}', 'Auth\PasswordApiController@showResetForm');
+    $this->get('password/reset/{token?}', 'Auth\PasswordApiController@showResetForm');*/
+
+    // simple password reset
+    $this->post('password/reset', 'Auth\PasswordApiController@simpleReset');
 
     // Donor bound routes
     Route::group([

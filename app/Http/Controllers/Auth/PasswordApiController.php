@@ -8,6 +8,9 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Validator;
+use Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
+use Mail;
 
 class PasswordApiController extends Controller {
 
@@ -186,6 +189,43 @@ class PasswordApiController extends Controller {
         $email = $request->input('email');
 
         return response()->json(compact('token', 'email'));
+    }
+
+    /**
+     * Returns a password for the requested email address, if registered else an error
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function simpleReset(Request $request) {
+        
+        $this->validateSendResetLinkEmail($request);
+
+        $broker = $this->getBroker();
+        $user = Password::broker($broker)->getUser($this->getSendResetLinkEmailCredentials($request));
+
+        if (is_null($user)) {
+            return $this->getSendResetLinkEmailFailureResponse($response);
+        }
+        else {
+            try {
+                $decrypted = Crypt::decrypt($user->password);
+                
+                $view = 'auth.emails.simplereset';//$this->emailView;
+
+                $mailed = Mail::send($view, compact('decrypted', 'user'), function ($m) use ($user) {
+                    $m->to($user->getEmailForPasswordReset(), $user->name);
+                    $m->subject('Your Password Request');
+                });
+
+                if($mailed) {
+                    return response()->json(['message' => 'An email has been sent to your account with the password.']);
+                }
+            } catch (DecryptException $e) {
+                return response()->json(['error' => $e->getMessage()]);
+            }
+            return response()->json(['error' => 'Unknown error processing request']);
+        }
     }
 
 }

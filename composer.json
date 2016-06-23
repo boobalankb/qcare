@@ -8,7 +8,8 @@
 		"laravel/framework": "5.2.*",
 		"caffeinated/shinobi": "2.4.*",
 		"alt-three/bus": "^1.0",
-		"tymon/jwt-auth": "1.0.*@alpha"
+		"tymon/jwt-auth": "1.0.*@alpha",
+		"doctrine/dbal": "2.5.*"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",

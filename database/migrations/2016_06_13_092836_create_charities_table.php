@@ -15,7 +15,7 @@ class CreateCharitiesTable extends Migration
         Schema::create('charities', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('charity_category_id');
+            $table->integer('charity_category_id')->unsigned();
             $table->text('description');
             $table->text('address');
             $table->string('email');
@@ -27,6 +27,10 @@ class CreateCharitiesTable extends Migration
 
             // associations
             //$table->foreign('charity_category_id')->references('id')->on('users');
+        });
+
+        Schema::table('charities', function (Blueprint $table) {
+            $table->foreign('charity_category_id')->references('id')->on('charity_categories');
         });
     }
 

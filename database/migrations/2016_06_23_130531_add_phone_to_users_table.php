@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddCategoryIdToCharitiesTable extends Migration
+class AddPhoneToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class AddCategoryIdToCharitiesTable extends Migration
      */
     public function up()
     {
-        Schema::table('charities', function (Blueprint $table) {
-            //$table->foreign('charity_category_id')->references('id')->on('charity_categories');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('phone', 20)->after('address');
         });
     }
 
@@ -24,8 +24,8 @@ class AddCategoryIdToCharitiesTable extends Migration
      */
     public function down()
     {
-        Schema::table('charities', function (Blueprint $table) {
-            //
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('phone');
         });
     }
 }
