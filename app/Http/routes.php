@@ -57,6 +57,13 @@ Route::group([
     $this->post('password/reset', 'Auth\PasswordApiController@reset');
     $this->get('password/reset/{token?}', 'Auth\PasswordApiController@showResetForm');
 
+    $this->get('Charity', 'CharityController@index');
+    $this->get('Charity/{id}', 'CharityController@CategoryId')->where('id', '[0-9]+');
+    $this->get('Charity/{cat_name}','CharityController@Categoryname')->where('cat_name', '[A-Za-z]+');
+
+
+
+
     // Donor bound routes
     Route::group([
         'middleware' => ['ability:donor'],

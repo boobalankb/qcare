@@ -7,7 +7,10 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Validator;
+use DB;
+use Crypt;
 
 class PasswordApiController extends Controller {
 
@@ -136,13 +139,27 @@ class PasswordApiController extends Controller {
             $this->resetEmailBuilder()
         );
 
-        switch ($response) {
-            case Password::RESET_LINK_SENT:
-                return $this->getSendResetLinkEmailSuccessResponse($response);
-            case Password::INVALID_USER:
-            default:
-                return $this->getSendResetLinkEmailFailureResponse($response);
-        }
+        //Crypt::setKey(Config::get('app.key'));
+        //print_r($request->email);
+        $mail = $request->email;
+
+        $users = DB::table('users')
+                    ->where('email', $mail)
+                    ->get([Crypt::decrypt('password')]);
+
+        //$new_password = Crypt::decrypt($users);
+
+        return response()->json(['items' => $users]);
+
+        //print_r($results);
+
+        // switch ($response) {
+        //     case Password::RESET_LINK_SENT:
+        //         return $this->getSendResetLinkEmailSuccessResponse($response);
+        //     case Password::INVALID_USER:
+        //     default:
+        //         return $this->getSendResetLinkEmailFailureResponse($response);
+        // }
     }
 
     /**
@@ -166,6 +183,16 @@ class PasswordApiController extends Controller {
     {
         //return redirect()->back()->with('status', trans($response));
         return response()->json(['status' => trans($response)]);
+
+        /* for the password sending*/
+
+        // $mail = $request->email;
+        // $users = DB::table('users')
+        //             ->where('email', $mail)
+        //             ->get(['password']);
+        // return response()->json(['items' => $users])
+
+        
     }
 
     /**
