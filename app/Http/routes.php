@@ -52,7 +52,7 @@ Route::group([
     // Auth Registration, Login routes
 	$this->post('register', 'Auth\AuthApiController@register');
     $this->post('login', 'Auth\AuthApiController@login');
-    $this->get('logout', 'Auth\AuthApiController@logout');
+    $this->get('logout', ['middleware' => ['ability:donor'], 'uses'=>'Auth\AuthApiController@logout']);
 
     // password reset
     /*$this->post('password/email', 'Auth\PasswordApiController@sendResetLinkEmail');
