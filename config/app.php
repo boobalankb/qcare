@@ -144,6 +144,7 @@ return [
 		'App\Providers\ConfigServiceProvider',
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
+		'App\Providers\CustomAuthProvider',
 
 		'Caffeinated\Shinobi\ShinobiServiceProvider',
 		'Tymon\JWTAuth\Providers\LaravelServiceProvider'
