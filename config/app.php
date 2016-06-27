@@ -147,7 +147,8 @@ return [
 		'App\Providers\CustomAuthProvider',
 
 		'Caffeinated\Shinobi\ShinobiServiceProvider',
-		'Tymon\JWTAuth\Providers\LaravelServiceProvider'
+		'Tymon\JWTAuth\Providers\LaravelServiceProvider',
+		'Collective\Html\HtmlServiceProvider'
 
 	],
 
@@ -198,7 +199,9 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
 
 		'Shinobi' 	=> 'Caffeinated\Shinobi\Facades\Shinobi',
-		'JWTAuth' 	=> 'Tymon\JWTAuth\Facades\JWTAuth'
+		'JWTAuth' 	=> 'Tymon\JWTAuth\Facades\JWTAuth',
+		'Form' 		=> 'Collective\Html\FormFacade',
+      	'Html' 		=> 'Collective\Html\HtmlFacade',
 
 	],
 

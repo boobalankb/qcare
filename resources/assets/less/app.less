@@ -6,3 +6,48 @@
 body, label, .checkbox label {
 	font-weight: 300;
 }
+
+@media {
+	only {
+		screen {
+			and {
+				(max-width {
+					&:800px) {
+						#no-more-tables table, #no-more-tables thead, #no-more-tables tbody, #no-more-tables th, #no-more-tables td, #no-more-tables tr { display: block;
+					}
+				}
+			}
+		}
+	}
+}
+#no-more-tables {
+	thead {
+		tr {
+			left: -9999px;
+			position: absolute;
+			top: -9999px;
+		}
+	}
+	tr {
+		border: 1px solid #cccccc;
+	}
+	td {
+		border-bottom: 1px solid #eeeeee;
+		border: none;
+		padding-left: 50%;
+		position: relative;
+		text-align:left;
+		white-space: normal;
+		&:before {
+			content: attr(data-title);
+			font-weight: bold;
+			left: 6px;
+			padding-right: 10px;
+			position: absolute;
+			text-align:left;
+			top: 6px;
+			white-space: nowrap;
+			width: 45%;
+		}
+	}
+}

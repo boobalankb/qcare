@@ -6,14 +6,11 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Charity;
-use App\Http\Requests\StoreCharityRequest;
-use DB;
+use App\CharityCategory;
 use Auth;
 
-class CharityController extends Controller
+class CharityCategoryController extends Controller
 {
-
     protected $guard = 'admin';
 
     /**
@@ -23,9 +20,9 @@ class CharityController extends Controller
      */
     public function index()
     {
-        $charities = Charity::with('category')->paginate(10);
+        $categories = CharityCategory::paginate(10);
         $guard = $this->guard;
-        return view('admin.charities.index', compact('charities', 'guard'));
+        return view('admin.categories.index', compact('categories', 'guard'));
     }
 
     /**
@@ -35,8 +32,7 @@ class CharityController extends Controller
      */
     public function create()
     {
-        $categories = DB::table('charity_categories')->pluck('name', 'id');
-        return view('admin.charities.create', ['charity' => new \App\Charity, 'categories' => $categories]);
+        return view('admin.categories.create', ['category' => new \App\CharityCategory]);
     }
 
     /**
@@ -45,27 +41,24 @@ class CharityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCharityRequest $request)
+    public function store(Request $request)
     {
-        $charity = new Charity;
+        $category = new CharityCategory;
 
-        // fillable inputs
-        $columnMap = ['name', 'charity_category_id', 'address', 'state', 'country', 'zip', 'phone', 'email', 'latitude', 'longitude', 'contact_person', 'size', 'description', 'certification', 'authentication'];
-        
-        foreach($columnMap as $column) {
-            $charity->$column = $request->input($column, '');
-        }
+         $this->validate($request, [
+            'name' => 'required|unique:charity_categories|max:255'
+        ]);
 
-        if($charity->save()) {
-            $request->session()->flash('success', 'Charity saved successfully!');
-            return redirect('/admin/charities');
+        $category->name = $request->input('name', '');
+
+        if($category->save()) {
+            $request->session()->flash('success', 'Category saved successfully!');
+            return redirect('/admin/category');
         }
         else {
             $request->session()->flash('error', 'Error processing request');
-            $categories = DB::table('charity_categories')->pluck('name', 'id');
-            return view('admin.charities.create', ['charity' => new \App\Charity, 'categories' => $categories]);
+            return view('admin.categories.create', ['category' => new \App\CharityCategory, 'categories' => $categories]);
         }
-
     }
 
     /**

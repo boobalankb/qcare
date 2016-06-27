@@ -22,6 +22,8 @@ class AuthController extends Controller {
 
 	use AuthenticatesAndRegistersUsers;
 
+	protected $guard = 'admin';
+
 	/**
 	 * Create a new authentication controller instance.
 	 *

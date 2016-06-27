@@ -37,7 +37,9 @@ Route::group(['prefix' => '/admin'], function () {
     Route::group([
         'middleware' => ['admin', 'admin.ability:admin'],
     ], function () {
-        Route::get('/charities', 'Admin\CharityController@index');
+        //Route::get('/charities', 'Admin\CharityController@index');
+        Route::resource('charities', 'Admin\CharityController');
+        Route::resource('category', 'Admin\CharityCategoryController');
     });
 });
 

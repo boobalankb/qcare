@@ -205,7 +205,7 @@ class PasswordApiController extends Controller {
         $user = Password::broker($broker)->getUser($this->getSendResetLinkEmailCredentials($request));
 
         if (is_null($user)) {
-            return $this->getSendResetLinkEmailFailureResponse($response);
+            return response()->json(['error' => 'Could not find email address']);
         }
         else {
             try {
