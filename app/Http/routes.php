@@ -69,6 +69,7 @@ Route::group([
         'middleware' => ['ability:donor'],
     ], function () {
         Route::get('/category', 'CharityCategoryController@index');
+        Route::get('/charities/{id}', 'CharityController@show')->where('id', '[0-9]+');
         Route::get('/charities', 'CharityController@index');
         Route::get('/index', 'HomeController@index');
     });

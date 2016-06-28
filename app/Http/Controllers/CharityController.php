@@ -66,8 +66,16 @@ class CharityController extends Controller
         }
 
     	$charities = $query->paginate($limit);
-        //dd(DB::getQueryLog());
         
     	return response()->json(['items' => $charities]);
+    }
+
+    /**
+     * Returns the charity item by id as json.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, $id) {
+        return response()->json(Charity::with('category')->with('tagged')->findOrFail($id));
     }
 }
