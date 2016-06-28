@@ -11,6 +11,6 @@ class Image extends Model
      */
     public function charity()
     {
-        return $this->belongsTo('App\Charity');
+        return $this->belongsToMany('App\Charity');
     }
 }

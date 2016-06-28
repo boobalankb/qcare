@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.app')
 
 @section('content')
 <div class="container-fluid">
@@ -7,6 +7,9 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">Create Charity</div>
 				<div class="panel-body">
+					@if(Session::has('message'))
+				    	<p class="alert {{ Session::get('message-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+				    @endif
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">
 							<strong>Whoops!</strong> There were some problems with your input.<br><br>

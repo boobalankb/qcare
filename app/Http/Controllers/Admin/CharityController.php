@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use App\Charity;
 use App\Http\Requests\StoreCharityRequest;
-use DB;
+use App\Http\Controllers\Controller;
+use App\Http\Requests;
+use App\Charity;
+use App\Image;
 use Auth;
+use DB;
 
 class CharityController extends Controller
 {
@@ -57,11 +58,13 @@ class CharityController extends Controller
         }
 
         if($charity->save()) {
-            $request->session()->flash('success', 'Charity saved successfully!');
+            $request->session()->flash('message', 'Charity saved successfully!');
+            $request->session()->flash('message-class', 'alert-success');
             return redirect('/admin/charities');
         }
         else {
-            $request->session()->flash('error', 'Error processing request');
+            $request->session()->flash('message', 'Error! Could not save.');
+            $request->session()->flash('message-class', 'alert-error');
             $categories = DB::table('charity_categories')->pluck('name', 'id');
             return view('admin.charities.create', ['charity' => new \App\Charity, 'categories' => $categories]);
         }
@@ -116,14 +119,43 @@ class CharityController extends Controller
             $charity->$column = $request->input($column, '');
         }
 
-        $charity->retag(explode('|', $request->input('causes', '')));
+        // check if cause has changed
+        $causes = [];
+        foreach($charity->tags as $tag) {
+            $causes[] = $tag->name;
+        }
+        $causesStr = implode('|', $causes);
+        if($causesStr != $request->input('causes', '')) {
+            $charity->retag(explode('|', $request->input('causes', '')));
+        }
+
+        // process images
+        $picture = ''; $savedImages = [];
+        if ($request->hasFile('images')) {
+            $files =  $request->file('images');
+            foreach($files as $file){
+                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $picture = date('His').'_'.$filename;
+                $destinationPath = base_path() . DIRECTORY_SEPARATOR. 'public' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'charity' . DIRECTORY_SEPARATOR .  $id;
+                $file->move($destinationPath, $picture);
+                $image = new Image;
+                $image->path = 'images/charity/'.$id.$picture;
+                $image->save();
+                $savedImages[] = $image;
+            }
+
+            $charity->images()->saveMany($savedImages);
+        }
 
         if($charity->save()) {
-            $request->session()->flash('success', 'Charity saved successfully!');
+            $request->session()->flash('message', 'Charity saved successfully!');
+            $request->session()->flash('message-class', 'alert-success');
             return redirect('/admin/charities');
         }
         else {
-            $request->session()->flash('error', 'Error processing request');
+            $request->session()->flash('message', 'Error! Could not save.');
+            $request->session()->flash('message-class', 'alert-error');
             $categories = DB::table('charity_categories')->pluck('name', 'id');
             return view('admin.charities.create', ['charity' => new \App\Charity, 'categories' => $categories]);
         }

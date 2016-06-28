@@ -39,7 +39,7 @@ class CharityController extends Controller
         //$offset = $request->input('page', 1);
 
         // Get query object
-        $query = Charity::with('category')->with('tagged');
+        $query = Charity::with('category')->with('tagged')->with('images');
 
         // Check for category
         if($category = $request->input('category', false)) {

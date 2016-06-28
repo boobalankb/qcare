@@ -45,18 +45,20 @@ class CharityCategoryController extends Controller
     {
         $category = new CharityCategory;
 
-         $this->validate($request, [
+        $this->validate($request, [
             'name' => 'required|unique:charity_categories|max:255'
         ]);
 
         $category->name = $request->input('name', '');
 
         if($category->save()) {
-            $request->session()->flash('success', 'Category saved successfully!');
+            $request->session()->flash('message', 'Category saved successfully!');
+            $request->session()->flash('message-class', 'alert-success');
             return redirect('/admin/category');
         }
         else {
-            $request->session()->flash('error', 'Error processing request');
+            $request->session()->flash('message', 'Error processing request');
+            $request->session()->flash('message-class', 'alert-error');
             return view('admin.categories.create', ['category' => new \App\CharityCategory, 'categories' => $categories]);
         }
     }
@@ -80,7 +82,8 @@ class CharityCategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = CharityCategory::findOrFail($id);
+        return view('admin.categories.edit', ['category' => $category]);
     }
 
     /**
@@ -92,7 +95,24 @@ class CharityCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = CharityCategory::findOrFail($id);
+
+        $this->validate($request, [
+            'name' => 'required|max:255'
+        ]);
+
+        $category->name = $request->input('name', '');
+
+        if($category->save()) {
+            $request->session()->flash('message', 'Category saved successfully!');
+            $request->session()->flash('message-class', 'alert-success');
+            return redirect('/admin/category');
+        }
+        else {
+            $request->session()->flash('message', 'Oops, not saved!');
+            $request->session()->flash('message-class', 'alert-error');
+            return view('admin.categories.edit', ['category' => $category]);
+        }
     }
 
     /**

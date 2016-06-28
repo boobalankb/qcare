@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.app')
 
 @section('content')
 <div class="container-fluid">
@@ -7,6 +7,9 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">Edit Charity</div>
 				<div class="panel-body">
+					@if(Session::has('message'))
+				    	<p class="alert {{ Session::get('message-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+				    @endif
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">
 							<strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -139,7 +142,7 @@
 							<div class="form-group">
 								<label class="col-md-4 control-label">Images</label>
 								<div class="col-md-6">
-									{{ Form::file('images') }}
+									{{ Form::file('images[]', array('multiple' => true)) }}
 								</div>
 							</div>
 						</div>
@@ -149,7 +152,7 @@
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">
-									Add Charity
+									Update
 								</button>
 							</div>
 						</div>

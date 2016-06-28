@@ -5,7 +5,7 @@
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<div class="panel panel-default">
-				<div class="panel-heading">Create Category</div>
+				<div class="panel-heading">Edit Category</div>
 				<div class="panel-body">
 					@if(Session::has('message'))
 				    	<p class="alert {{ Session::get('message-class', 'alert-info') }}">{{ Session::get('message') }}</p>
@@ -21,7 +21,7 @@
 						</div>
 					@endif
 
-					{!! Form::open(array('url' => 'admin/category', 'class' => 'form-horizontal')) !!}
+					{!! Form::model($category, array('route' => array('admin.category.update', $category->id), 'class' => 'form-horizontal', 'method' => 'put')) !!}
 						{!! Form::token() !!}
 
 						<div class="col-md-10">
@@ -36,7 +36,7 @@
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
 								<button type="submit" class="btn btn-primary">
-									Add Category
+									Update
 								</button>
 							</div>
 						</div>

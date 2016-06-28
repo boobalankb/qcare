@@ -7,6 +7,9 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">Categories <div class="pull-right"><a href="{{url('/admin/category/create')}}">Add New</a></div></div>
 				<div class="panel-body">
+					@if(Session::has('message'))
+				    	<p class="alert {{ Session::get('message-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+				    @endif
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">
 							<strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -41,7 +44,8 @@
 	                                </td>
 
 	                                <td>
-	                                    <!-- TODO: Delete Button -->
+	                                    <a href="{{route('admin.category.edit', ['id' => $category->id])}}">Edit</a> &bull;
+	                                    <a href="{{route('admin.category.destroy', ['id' => $category->id])}}">Delete</a>
 	                                </td>
 	                            </tr>
 	                        @endforeach
