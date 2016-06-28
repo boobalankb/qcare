@@ -148,7 +148,8 @@ return [
 
 		'Caffeinated\Shinobi\ShinobiServiceProvider',
 		'Tymon\JWTAuth\Providers\LaravelServiceProvider',
-		'Collective\Html\HtmlServiceProvider'
+		'Collective\Html\HtmlServiceProvider',
+		'Conner\Tagging\Providers\TaggingServiceProvider'
 
 	],
 
@@ -202,6 +203,21 @@ return [
 		'JWTAuth' 	=> 'Tymon\JWTAuth\Facades\JWTAuth',
 		'Form' 		=> 'Collective\Html\FormFacade',
       	'Html' 		=> 'Collective\Html\HtmlFacade',
+
+	],
+
+	/*
+	|--------------------------------------------------------------------------
+	| Global Application Config
+	|--------------------------------------------------------------------------
+	|
+	| This array of values will be used for basic settings of app like paging and others.
+	|
+	*/
+
+	'global' => [
+
+		'paging'    => 15,
 
 	],
 

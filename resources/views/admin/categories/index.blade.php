@@ -5,7 +5,7 @@
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<div class="panel panel-default">
-				<div class="panel-heading">Categories</div>
+				<div class="panel-heading">Categories <div class="pull-right"><a href="{{url('/admin/category/create')}}">Add New</a></div></div>
 				<div class="panel-body">
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">

@@ -87,7 +87,15 @@ class CharityController extends Controller
      */
     public function edit($id)
     {
-        //
+        $charity = Charity::with('category')->findOrFail($id);
+        $causes = [];
+        foreach($charity->tags as $tag) {
+            $causes[] = $tag->name;
+        }
+        $charity->causes = implode('|', $causes);
+        $categories = DB::table('charity_categories')->pluck('name', 'id');
+        $guard = $this->guard;
+        return view('admin.charities.edit', compact('charity', 'guard', 'categories'));
     }
 
     /**
@@ -97,9 +105,29 @@ class CharityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreCharityRequest $request, $id)
     {
-        //
+        $charity = Charity::with('category')->findOrFail($id);
+
+        // fillable inputs
+        $columnMap = ['name', 'charity_category_id', 'address', 'state', 'country', 'zip', 'phone', 'email', 'latitude', 'longitude', 'contact_person', 'size', 'description', 'certification', 'authentication'];
+        
+        foreach($columnMap as $column) {
+            $charity->$column = $request->input($column, '');
+        }
+
+        $charity->retag(explode('|', $request->input('causes', '')));
+
+        if($charity->save()) {
+            $request->session()->flash('success', 'Charity saved successfully!');
+            return redirect('/admin/charities');
+        }
+        else {
+            $request->session()->flash('error', 'Error processing request');
+            $categories = DB::table('charity_categories')->pluck('name', 'id');
+            return view('admin.charities.create', ['charity' => new \App\Charity, 'categories' => $categories]);
+        }
+
     }
 
     /**

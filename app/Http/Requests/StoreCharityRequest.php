@@ -24,7 +24,7 @@ class StoreCharityRequest extends Request
     public function rules()
     {
         return [
-            'name'          => 'required|unique:charities',
+            'name'          => 'required',
             'description'   => 'required',
             'address'       => 'required',
             'state'         => 'required',

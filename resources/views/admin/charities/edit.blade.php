@@ -5,7 +5,7 @@
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<div class="panel panel-default">
-				<div class="panel-heading">Create Charity</div>
+				<div class="panel-heading">Edit Charity</div>
 				<div class="panel-body">
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">
@@ -18,7 +18,7 @@
 						</div>
 					@endif
 
-					{!! Form::open(array('url' => 'admin/charities', 'files' => true, 'class' => 'form-horizontal')) !!}
+					{!! Form::model($charity, array('route' => array('admin.charities.update', $charity->id), 'files' => true, 'class' => 'form-horizontal', 'method' => 'put')) !!}
 						{!! Form::token() !!}
 
 						<div class="col-md-6">
