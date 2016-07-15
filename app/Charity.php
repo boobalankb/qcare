@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Charity extends Model
 {
     use \Conner\Tagging\Taggable;
+    use \Kodeine\Metable\Metable;
 
 	/**
      * Get the images for the charity.

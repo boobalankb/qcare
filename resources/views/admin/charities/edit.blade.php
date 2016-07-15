@@ -140,6 +140,41 @@
 							</div>
 
 							<div class="form-group">
+								<label class="col-md-4 control-label">Charity URL</label>
+								<div class="col-md-6">
+									{{ Form::text('charity_url', Input::old('charity_url'), array('class' => 'form-control')) }}
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-4 control-label">EIN</label>
+								<div class="col-md-6">
+									{{ Form::text('ein', Input::old('ein'), array('class' => 'form-control')) }}
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-4 control-label">Tax Status</label>
+								<div class="col-md-6">
+									{{ Form::text('tax_status', Input::old('tax_status'), array('class' => 'form-control')) }}
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-4 control-label">IRS 990</label>
+								<div class="col-md-6">
+									{{ Form::text('irs_990', Input::old('irs_990'), array('class' => 'form-control')) }}
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-md-4 control-label">IRS Date</label>
+								<div class="col-md-6">
+									{{ Form::text('irs_date', Input::old('irs_date'), array('class' => 'form-control')) }}
+								</div>
+							</div>
+
+							<div class="form-group">
 								<label class="col-md-4 control-label">Images</label>
 								<div class="col-md-6">
 									{{ Form::file('images[]', array('multiple' => true)) }}

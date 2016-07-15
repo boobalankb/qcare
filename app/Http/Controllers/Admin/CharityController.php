@@ -113,10 +113,17 @@ class CharityController extends Controller
         $charity = Charity::with('category')->findOrFail($id);
 
         // fillable inputs
+        // table fillables
         $columnMap = ['name', 'charity_category_id', 'address', 'state', 'country', 'zip', 'phone', 'email', 'latitude', 'longitude', 'contact_person', 'size', 'description', 'certification', 'authentication'];
+        // meta fillables
+        $metaMap = ['charity_url', 'ein', 'tax_status', 'irs_990', 'irs_date'];
         
         foreach($columnMap as $column) {
             $charity->$column = $request->input($column, '');
+        }
+
+        foreach($metaMap as $mColumn) {
+            $charity->$mColumn = $request->input($mColumn, '');
         }
 
         // check if cause has changed
